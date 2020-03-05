@@ -1,0 +1,15 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: user-service
+#  profiles:
+#    active:
+  cloud:
+    nacos:
+      config:
+        namespace: 27bf9219-2378-4853-9270-19ab912f1eea
+        shared-dataids: common.yml
+        refreshable-dataids: common.yml
+        server-addr: 127.0.0.1:8848
+        file-extension: yml

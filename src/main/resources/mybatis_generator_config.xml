@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="mysqlContext" targetRuntime="MyBatis3">
+        <property name="autoDelimitKeywords" value="true"/>
+
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+
+        <!--自定义覆盖旧的xml，因默认是追加xml，存在重复的情况，所以要修改-->
+        <plugin type="org.angzhao.demo.service.user.dal.plugin.OverwriteXmlPlugin"></plugin>
+        <!--自定义使用lombok注解实体对象-->
+        <plugin type="org.angzhao.demo.service.user.dal.plugin.LombokPlugin">
+            <property name="hasLombok" value="true"/>
+        </plugin>
+        <commentGenerator type="org.angzhao.demo.service.user.dal.plugin.CommentGenerator">
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/weixin?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=GMT"
+                        userId="root"
+                        password="root">
+            <property name="remarksReporting" value="true"/>
+            <property name="nullCatalogMeansCurrent" value="false" />
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--model生成目录-->
+        <javaModelGenerator targetPackage="org.angzhao.demo.service.user.dal.domain"
+                            targetProject="user-service\src\main\java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/><!--从数据库返回的值是否清理前后的空格-->
+        </javaModelGenerator>
+
+        <!--mapper.xml生成目录-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="user-service\src\main\resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--接口生成目录-->
+        <javaClientGenerator  type="XMLMAPPER" targetPackage="org.angzhao.demo.service.user.dal.mapper"
+                              targetProject="user-service\src\main\java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- 表配置  -->
+        <table tableName="cp_user_info">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+    </context>
+</generatorConfiguration>
