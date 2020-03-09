@@ -11,4 +11,8 @@ public class UserParam {
 
     private Date date;
 
+    private Date beginTime;
+
+    private Date endTime;
+
 }

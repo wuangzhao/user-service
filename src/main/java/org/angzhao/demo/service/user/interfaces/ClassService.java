@@ -5,6 +5,7 @@ import org.angzhao.demo.service.user.interfaces.param.ClassParam;
 import org.angzhao.demo.service.user.interfaces.param.UserParam;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 public interface ClassService {
@@ -12,5 +13,7 @@ public interface ClassService {
     ClassDTO getClassInfoByClassId(ClassParam param);
 
     List<ClassDTO> getClassInfoByUserIdAndDate(UserParam param) throws ParseException;
+
+    List<Date> getClassDateByUserId(UserParam userParam);
 
 }

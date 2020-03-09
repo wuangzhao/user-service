@@ -79,4 +79,21 @@ public class ClassServiceImpl implements ClassService {
         }
         return classDTOS;
     }
+
+    @Override
+    public List<Date> getClassDateByUserId(UserParam param) {
+        CpUserClassInfoExample example = new CpUserClassInfoExample();
+        example.createCriteria().andUserIdEqualTo(param.getUserId());
+        List<Date> dates = new ArrayList<>();
+        for (CpUserClassInfo userClassInfo : userClassInfoMapper.selectByExample(example)) {
+            CpClassDateExample classDateExample = new CpClassDateExample();
+            classDateExample.createCriteria().andClassIdEqualTo(userClassInfo.getClassId()).andClassDateBetween(param.getBeginTime(), param.getEndTime());
+            for (CpClassDate date : classDateMapper.selectByExample(classDateExample)) {
+                dates.add(date.getClassDate());
+            }
+        }
+        return dates;
+
+
+    }
 }
