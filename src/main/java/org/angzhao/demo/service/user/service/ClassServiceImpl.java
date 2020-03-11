@@ -9,6 +9,7 @@ import org.angzhao.demo.service.user.interfaces.ClassService;
 import org.angzhao.demo.service.user.interfaces.dto.ClassDTO;
 import org.angzhao.demo.service.user.interfaces.param.ClassParam;
 import org.angzhao.demo.service.user.interfaces.param.UserParam;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,15 @@ public class ClassServiceImpl implements ClassService {
             }
             dto.setClassImg(classInfo.getClassImg());
             dto.setClassName(classInfo.getClassName());
-            return dto;
+            CpClassDateExample dateExample = new CpClassDateExample();
+            dateExample.createCriteria().andClassDateGreaterThan(new Date()).andClassIdEqualTo(param.getClassId());
+            dateExample.setOrderByClause("class_date ASC");
+            List<CpClassDate> cpClassDates = classDateMapper.selectByExample(dateExample);
+            if (cpClassDates != null && cpClassDates.size() > 0) {
+                CpClassDate classDate = cpClassDates.get(0);
+                dto.setDate(classDate.getClassDate());
+                return dto;
+            }
         }
         return null;
     }

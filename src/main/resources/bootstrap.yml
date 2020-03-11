@@ -8,7 +8,7 @@ spring:
   cloud:
     nacos:
       config:
-        namespace: 5db96e03-7aaa-4b2d-8ffd-8c7b3ee4301b
+        namespace: 27bf9219-2378-4853-9270-19ab912f1eea
         shared-dataids: common.yml
         refreshable-dataids: common.yml
         server-addr: 127.0.0.1:8848
