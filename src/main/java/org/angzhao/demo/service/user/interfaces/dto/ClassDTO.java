@@ -10,6 +10,8 @@ import java.util.List;
 @Data
 public class ClassDTO {
 
+    private String classId;
+
     private String className;
 
     private String teacher;
