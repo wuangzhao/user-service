@@ -9,4 +9,15 @@ import java.util.List;
 public interface UserService {
 
     List<ClassDTO> getUserClassById(UserParam param);
+
+    UserDTO addUser(UserParam param);
+
+    Boolean deleteUser(UserParam param);
+
+    UserDTO editUser(UserParam param);
+
+    Boolean addUserClass(UserParam param);
+
+    Boolean deleteUserClass(UserParam param);
+
 }
