@@ -3,6 +3,9 @@ package org.angzhao.demo.service.user;
 import org.angzhao.demo.service.user.dal.domain.CpClassDate;
 import org.angzhao.demo.service.user.dal.domain.CpClassDateExample;
 import org.angzhao.demo.service.user.dal.mapper.CpClassDateMapper;
+import org.angzhao.demo.service.user.interfaces.ClassService;
+import org.angzhao.demo.service.user.interfaces.dto.ClassDTO;
+import org.angzhao.demo.service.user.interfaces.param.ClassParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +18,9 @@ class DemoApplicationTests {
 
     @Autowired
     CpClassDateMapper mapper;
+
+    @Autowired
+    ClassService classService;
 
     @Test
     void contextLoads() {
@@ -36,6 +42,12 @@ class DemoApplicationTests {
         date.setClassDate(new Date());
 //        mapper.insert(date);
         mapper.selectByExample(example).forEach(Object::toString);
+    }
+
+    @Test
+    public void fuck() {
+        ClassParam param = new ClassParam();
+        System.out.println(classService.queryClass(param).toString());
     }
 
 }

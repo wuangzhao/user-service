@@ -1,12 +1,13 @@
 package org.angzhao.demo.service.user.interfaces.param;
 
 import lombok.Data;
+import org.angzhao.demo.service.user.common.BaseParam;
 import org.angzhao.demo.service.user.interfaces.dto.UserDTO;
 
 import java.util.Date;
 
 @Data
-public class UserParam {
+public class UserParam extends BaseParam {
 
     private Long userId;
 

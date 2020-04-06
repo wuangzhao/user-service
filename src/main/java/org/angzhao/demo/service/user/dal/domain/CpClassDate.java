@@ -1,5 +1,8 @@
 package org.angzhao.demo.service.user.dal.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -29,6 +32,8 @@ public class CpClassDate implements Serializable {
      *
      * @mbg.generated Sun Mar 08 23:22:04 CST 2020
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date classDate;
 
     /**

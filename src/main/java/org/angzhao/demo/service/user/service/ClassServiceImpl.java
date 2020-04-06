@@ -1,5 +1,7 @@
 package org.angzhao.demo.service.user.service;
 
+import com.google.common.collect.Lists;
+import org.angzhao.demo.service.user.common.Page;
 import org.angzhao.demo.service.user.dal.domain.*;
 import org.angzhao.demo.service.user.dal.mapper.CpClassDateMapper;
 import org.angzhao.demo.service.user.dal.mapper.CpClassInfoMapper;
@@ -13,9 +15,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -103,4 +102,75 @@ public class ClassServiceImpl implements ClassService {
         }
         return dates;
     }
+
+    @Override
+    public Boolean addClassInfo(CpClassInfo cpClassInfo) {
+        return classInfoMapper.insert(cpClassInfo) > 0;
+
+    }
+
+    @Override
+    public Boolean deleteClassInfo(ClassParam param) {
+        CpClassDateExample classDateExample = new CpClassDateExample();
+        classDateExample.createCriteria().andClassIdEqualTo(param.getClassId());
+        CpUserClassInfoExample userClassInfoExample = new CpUserClassInfoExample();
+        userClassInfoExample.createCriteria().andClassIdEqualTo(param.getClassId());
+        CpClassInfoExample classInfoExample = new CpClassInfoExample();
+        classInfoExample.createCriteria().andClassIdEqualTo(param.getClassId());
+
+        classDateMapper.deleteByExample(classDateExample);
+        userClassInfoMapper.deleteByExample(userClassInfoExample);
+        return classInfoMapper.deleteByExample(classInfoExample) > 0;
+    }
+
+    @Override
+    public Boolean editClassInfo(CpClassInfo cpClassInfo) {
+        CpClassInfoExample example = new CpClassInfoExample();
+        example.createCriteria().andClassIdEqualTo(cpClassInfo.getClassId());
+        return classInfoMapper.updateByExampleSelective(cpClassInfo, example) > 0;
+    }
+
+    @Override
+    public Page<ClassDTO> queryClass(ClassParam param) {
+        int pageIndex = Math.max(param.getPageIndex() - 1, 0);
+        int pageSize = Math.max(param.getPageSize(), 1);
+        CpClassInfoExample example = new CpClassInfoExample();
+        if (Objects.nonNull(param.getName())) {
+            example.createCriteria().andClassNameLike("%" + param.getName() + "%");
+        } else {
+            example.createCriteria().andClassIdIsNotNull();
+        }
+        Page<ClassDTO> page = new Page<>();
+        RowBounds rowBounds = new RowBounds(pageIndex * pageSize, pageSize);
+        List<ClassDTO> dtos = doToDTO(classInfoMapper.selectByExampleWithRowbounds(example, rowBounds));
+        page.setResult(dtos);
+        page.setPageNo(pageIndex);
+        page.setPageSize(pageSize);
+        if (Objects.isNull(param.getName())) {
+            example.clear();
+            example.createCriteria().andClassIdIsNotNull();
+        }
+        page.setTotal(classInfoMapper.selectByExample(example).size());
+        return page;
+    }
+
+    public List<ClassDTO> doToDTO(List<CpClassInfo> cpClassInfosList) {
+        List<ClassDTO> dtos = Lists.newArrayList();
+        System.out.println(cpClassInfosList.size());
+        for (CpClassInfo classInfo : cpClassInfosList) {
+            ClassDTO dto = new ClassDTO();
+            dto.setClassName(classInfo.getClassName());
+            dto.setClassImg(classInfo.getClassImg());
+            dto.setClassId(String.valueOf(classInfo.getClassId()));
+            CpTeacherInfoExample teacherInfoExample = new CpTeacherInfoExample();
+            teacherInfoExample.createCriteria().andTeacherIdEqualTo(classInfo.getTeacherId());
+            for (CpTeacherInfo teacherInfo : teacherInfoMapper.selectByExample(teacherInfoExample)) {
+                dto.setTeacher(teacherInfo.getTeacherName());
+            }
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+
 }
