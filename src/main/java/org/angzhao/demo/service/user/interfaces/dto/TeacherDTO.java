@@ -10,4 +10,5 @@ public class TeacherDTO {
     private String teacherName;
 
     private String teacherImgUrl;
+
 }
