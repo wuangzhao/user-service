@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         CpUserInfo userInfo = new CpUserInfo();
         userInfo.setUserName(dto.getUserName());
         userInfo.setNickName(dto.getNickName());
-        userInfo.setPassword(dto.getPassword());
+        userInfo.setUserPassword(dto.getPassword());
         return userInfoMapper.insert(userInfo) > 0;
     }
 
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         CpUserInfoExample example = new CpUserInfoExample();
         example.createCriteria().andUserIdEqualTo(dto.getUserId());
         CpUserInfo cpUserInfo = new CpUserInfo();
-        cpUserInfo.setPassword(dto.getPassword());
+        cpUserInfo.setUserPassword(dto.getPassword());
         cpUserInfo.setNickName(dto.getNickName());
         cpUserInfo.setUserName(dto.getUserName());
         cpUserInfo.setUserId(dto.getUserId());

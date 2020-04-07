@@ -1,6 +1,9 @@
 package org.angzhao.demo.service.user.service;
 
+import org.angzhao.demo.service.user.dal.domain.CpAdminInfo;
+import org.angzhao.demo.service.user.dal.domain.CpAdminInfoExample;
 import org.angzhao.demo.service.user.dal.domain.CpUserInfoExample;
+import org.angzhao.demo.service.user.dal.mapper.CpAdminInfoMapper;
 import org.angzhao.demo.service.user.dal.mapper.CpUserInfoMapper;
 import org.angzhao.demo.service.user.interfaces.LoginService;
 import org.angzhao.demo.service.user.interfaces.UserService;
@@ -25,6 +28,9 @@ public class LoginServiceImpl implements LoginService {
     CpUserInfoMapper userInfoMapper;
 
     @Autowired
+    CpAdminInfoMapper adminInfoMapper;
+
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -36,7 +42,7 @@ public class LoginServiceImpl implements LoginService {
         if (Objects.nonNull(param.getPassword()) && Objects.nonNull(param.getUsername())) {
             example.createCriteria()
                     .andUserNameEqualTo(param.getUsername())
-                    .andPasswordEqualTo(param.getPassword());
+                    .andUserPasswordEqualTo(param.getPassword());
         } else {
             return null;
         }
@@ -50,7 +56,20 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Boolean adminLogin(LoginParam param) {
+    public String adminLogin(LoginParam param) {
+        CpAdminInfoExample example = new CpAdminInfoExample();
+        if (Objects.nonNull(param.getPassword()) && Objects.nonNull(param.getAdminName())) {
+            example.createCriteria()
+                    .andAdminNameEqualTo(param.getAdminName())
+                    .andAdminPasswordEqualTo(param.getPassword());
+        } else {
+            return null;
+        }
+        if (adminInfoMapper.selectByExample(example).size() >= 1) {
+            String token = UUID.randomUUID().toString();
+            redisTemplate.opsForValue().set(param.getUsername(), token, 30, TimeUnit.MINUTES);
+            return token;
+        }
         return null;
     }
 

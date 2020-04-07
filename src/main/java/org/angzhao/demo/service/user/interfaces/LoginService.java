@@ -8,7 +8,7 @@ public interface LoginService {
 
     String userLogin(LoginParam param);
 
-    Boolean adminLogin(LoginParam param);
+    String adminLogin(LoginParam param);
 
     Boolean register(UserParam param);
 }

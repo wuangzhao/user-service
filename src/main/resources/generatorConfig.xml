@@ -58,5 +58,13 @@
         <table tableName="cp_class_date">
             <property name="useActualColumnNames" value="false"/>
         </table>
+
+        <table tableName="cp_user_info">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        <table tableName="cp_admin_info">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
     </context>
 </generatorConfiguration>
