@@ -48,14 +48,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO addUser(UserParam param) {
+    public boolean addUser(UserParam param) {
         UserDTO dto = param.getUserInfo();
         CpUserInfo userInfo = new CpUserInfo();
         userInfo.setUserName(dto.getUserName());
         userInfo.setNickName(dto.getNickName());
         userInfo.setPassword(dto.getPassword());
-        userInfoMapper.insert(userInfo);
-        return null;
+        return userInfoMapper.insert(userInfo) > 0;
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface UserService {
 
     List<ClassDTO> getUserClassById(UserParam param);
 
-    UserDTO addUser(UserParam param);
+    boolean addUser(UserParam param);
 
     Boolean deleteUser(UserParam param);
 

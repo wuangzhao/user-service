@@ -10,6 +10,7 @@ import org.angzhao.demo.service.user.interfaces.dto.TeacherDTO;
 import org.angzhao.demo.service.user.interfaces.param.TeacherParam;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import java.util.Objects;
  * @author genvict-wuaz
  * @date 2020/4/7 19:34
  */
+@Service
 public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
